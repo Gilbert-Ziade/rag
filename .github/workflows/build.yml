@@ -63,6 +63,9 @@ jobs:
           java-version: '17'
           cache: gradle
 
+      - name: Grant execute permissions for Gradle wrapper
+        run: chmod +x ./gradlew
+
       - name: Package with Gradle
         run: ./gradlew bootJar
 
