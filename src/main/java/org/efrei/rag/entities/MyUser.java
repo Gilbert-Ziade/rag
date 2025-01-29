@@ -17,6 +17,8 @@ public class MyUser {
 
     private String password;
 
+    private String content;
+
     public MyUser() {
     }
 
@@ -41,5 +43,9 @@ public class MyUser {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getContent() {
+        return content;
     }
 }
