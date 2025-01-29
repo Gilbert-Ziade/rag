@@ -82,3 +82,35 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/rag:latest
+
+  kubernetes:
+    runs-on: ubuntu-latest
+    needs: docker
+    steps:
+      - uses: actions/checkout@v2
+      - name: Start Kubernetes minikube
+        uses: medyagh/setup-minikube@master
+      - name: Try the Kubernetes cluster
+        run: kubectl get nodes
+      - name: Deploy the image to minikube
+        run: |
+          docker pull gziade/rag:latest
+          kubectl apply -f src/main/k8s/deployment.yml
+      - name: Get Kubernetes service URL
+        run: |
+          kubectl wait --for=condition=Ready pod -l app=spring-rag --timeout=120s
+          kubectl get pods
+          minikube service list
+          SERVICE_URL=$(minikube service spring-rag --url)
+          echo "${SERVICE_URL}/samples/EFREI"
+          echo "------------------opening the service------------------"
+          sleep 40
+      - name: Test Kubernetes service URL
+        uses: nick-fields/retry@v2
+        with:
+          timeout_seconds: 10
+          max_attempts: 4
+          command: curl $(minikube service spring-rag --url)/samples/EFREI
+      - name: Log Kubernetes pods
+        run: |
+          kubectl logs $(kubectl get pods -l app=spring-rag -o name)
