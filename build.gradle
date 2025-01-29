@@ -18,10 +18,18 @@ repositories {
 }
 
 dependencies {
+	implementation 'dev.langchain4j:langchain4j-open-ai-spring-boot-starter:1.0.0-alpha1'
+	implementation 'dev.langchain4j:langchain4j-ollama:1.0.0-alpha1'
+	implementation 'dev.langchain4j:langchain4j-spring-boot-starter:1.0.0-alpha1'
+	implementation 'dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2:1.0.0-alpha1'
+
+	implementation 'com.h2database:h2'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
 }
 
 tasks.named('test') {
